@@ -1,13 +1,25 @@
 
 #include "get_next_line.h"
-#include "libft.h"
 #include <fcntl.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 char	*buffer_checker(char *buffer, int fd)
 {
-	
+	ssize_t	i;
+	char	*tmp;
+
+	i = 1;
+	while (!strchr(tmp, '\n') && i > 0)
+	{
+		i =	read(fd, tmp, BUFFER_SIZE);
+		tmp = malloc(sizeof(char) * (i + 1));
+		if (!tmp)
+			return (NULL);
+		buffer = ft_strjoin(buffer, tmp);
+		free (tmp);
+	}
 	return (buffer);
 }
 
