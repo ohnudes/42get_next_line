@@ -10,22 +10,32 @@ size_t	ft_strlen(char *buffer)
 	return (i);
 }
 
-size_t	ft_strchr(const char *str, int c)
+char	*ft_strchr(const char *str, int c)
 {
-	size_t	i;
 	char	holder;
 
-	i = 0;
 	holder = (char)c;
-	while (str[i])
+	while (*str)
 	{
-		if (str[i] == holder)
-			return (i);
-		i++;
+		if (*str == holder)
+			return ((char *)str);
+		str++;
 	}
-	if (str[i] == holder)
-		return (i);
-	return (0);
+	if (*str == holder)
+		return ((char *)str);
+	return (NULL);
+}
+
+void	ft_lstaddback(t_buf HEAD, t_buf tmp)
+{
+	t_buf	t_iter;
+
+	if (HEAD->next =)
+		HEAD->next = tmp;
+	t_iter = HEAD;
+	while (t_iter)
+		t_iter = t_iter->next;
+
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)

@@ -1,9 +1,16 @@
 #ifndef GET_NEXT_LINE_H
 # define  GET_NEXT_LINE_H
 
-#define BUFFER_SIZE 1024
+# include <unistd.h>
 
-#include <unistd.h>
+# define BUFFER_SIZE 1024
+
+typedef struct s_buf
+{
+	char			*content;
+	struct s_buf	*next;
+}					t_buf;
+
 
 char	*get_next_line(int fd);
 char	*get_next_line_utils(int fd);
