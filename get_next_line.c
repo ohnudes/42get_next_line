@@ -1,95 +1,106 @@
 
 #include "get_next_line.h"
 #include <stdlib.h>
-#include <sys/_types/_ssize_t.h>
-#include <unistd.h>
 
-char	*fill_buff(int fd) 
+t_buf	*free_all(t_buf	**t_HEAD, char *str)
+{
+	t_buf	*ref;
+	char	*buf;
+	size_t	i;
+
+	ref = *t_HEAD;
+	while (ref)
+	{
+		buf = ref->content;
+		if (buf)
+		{
+			while (buf)
+				i++;
+			while (buf[i--] != '\0')
+				buf[i] = '\0';
+		}
+		free (ref->content);
+		*t_HEAD = ref->next;
+		ref->next = NULL;
+		ref = *t_HEAD;
+		if (!ref)
+			free (ref);
+	}
+	return ((void *)NULL);
+}
+
+char	*node_ensambler(t_buf **t_HEAD, char *str)
+{
+	t_buf	*t_new_node;
+	t_buf	*t_last;
+
+	t_new_node = ft_lstnew(str); // HACER STRDUP DENTRO DE LSTNEW!
+	if (!t_new_node)
+		return ((char *)free_all(t_HEAD, str));
+	if (t_HEAD == NULL)
+		*t_HEAD = t_new_node;
+	else
+	{
+		t_last = *t_HEAD;
+		while (t_last->next)
+			t_last = t_last->next;
+		t_last->next = t_new_node;
+	}
+	return (str);
+}
+
+t_buf	*fill_buff(int fd, t_buf **t_HEAD) 
 {
 	ssize_t	bytes_read;
 	char	*tmp;
 
 	tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!tmp)
-		return (NULL);
+		return (free_all(t_HEAD, tmp));
+	tmp[BUFFER_SIZE] = '\0';
 	bytes_read = 1;
-
-	// read
-	while (bytes_read && !ft_strchr(tmp, '\n'))
+	while (bytes_read)
 	{
 		bytes_read = read(fd, tmp, BUFFER_SIZE);
-
-		// if tmp is filled and there's no end of line
-		if (bytes_read == BUFFER_SIZE)
-			tmp = prolongate_tmp(tmp);
-
-		// protecting failed prolongate
-		if (!tmp)
-			return (NULL);
+		if (bytes_read < 0)
+			return (free_all(t_HEAD, tmp));
+		if (ft_strchr(tmp, '\n'))
+		{
+			tmp = node_ensambler(t_HEAD, tmp);
+			free (tmp);
+			return (*t_HEAD);
+		}
+		tmp = node_ensambler(t_HEAD, tmp);
 	}
-	return (tmp);
+	free (tmp);
+	return (*t_HEAD);
 }
 
-void	node_ensambler(t_buf HEAD, char *str)
+char	*do_str(t_buf *t_HEAD)
 {
-	size_t	i;
-	t_buf	node;
-	char	*content;
-	char	*ref;
+	t_buf	*t_iter;
+	char	*str;
 
-
-	ref = ft_strchr(str, '\n');
-	i = 0;
-	while (str)
+	t_iter = t_HEAD;
+	while (t_iter && t_iter->next)
 	{
-		if (ref)
-		{
-			while (str + i != ref)
-				i++;
-			content = malloc(sizeof(char) * (i + 1));
-			// revisar la memoria! no puede ser solo en base a i!!
-			if (!content)
-				return (free_all);
-
-			ft_memcpy(content, str, i);
-			ft_lstadd_back(HEAD, ft_lstnew(content));
-			if (HEAD->next == NULL)
-				return (free_all);
-			ref = ft_strchr((str + i), '\n');
-		}
-		if (!ref)
-		{
-			while (str[i])
-				i++;
-			content = malloc(sizeof(char) * (i + 1));
-			if (!content)
-				free_all;
-			ft_memcpy(content, str, i);
-			ft_lstadd_back(HEAD, ft_lstnew(content));
-			content[i] = '\0';
-		}
-	}
+		ft_strjoin(t_iter->content, const char *s2)
+		
+	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	static	t_buf	*HEAD;
+	static	t_buf	**t_HEAD;
 	char			*str;
 
 	if (fd < 0)
 		return (NULL);
-	HEAD = NULL;
-	if (!HEAD->next)
-		str = fill_buff(fd);
-	node_ensambler(HEAD, str);
-	str = do_str(HEAD);
+	t_HEAD = NULL;
+	if (!t_HEAD)
+		*t_HEAD = fill_buff(fd, t_HEAD);
+	if (!t_HEAD)
+		return (NULL);
+	str = do_str(*t_HEAD);
 	return (str);
-
-}
-
-
-int	main(void)
-{
-
-
 }
