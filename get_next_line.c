@@ -84,23 +84,23 @@ char	*do_str(t_buf *t_HEAD)
 	t_iter = t_HEAD;
 	while (t_iter && t_iter->next)
 	{
-		ft_strjoin(t_iter->content, const char *s2)
-		
+		ft_strjoin(t_iter->content, const char *s2);
+	}	
 	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	static	t_buf	**t_HEAD;
+	static	t_buf	*t_HEAD;
 	char			*str;
 
 	if (fd < 0)
 		return (NULL);
 	t_HEAD = NULL;
 	if (!t_HEAD)
-		*t_HEAD = fill_buff(fd, t_HEAD);
+		t_HEAD = fill_buff(fd, &t_HEAD);
 	if (!t_HEAD)
 		return (NULL);
-	str = do_str(*t_HEAD);
+	str = do_str(t_HEAD);
 	return (str);
 }
