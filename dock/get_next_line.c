@@ -6,8 +6,13 @@
 /*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 19:41:53 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/06/20 19:41:55 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/06/20 22:25:30 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+char	*get_next_line(int fd)
+{
+	
 
+	return (str);
+}
