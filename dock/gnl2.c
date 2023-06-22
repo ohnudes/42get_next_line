@@ -6,21 +6,13 @@
 /*   By: ohnudes <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:00:34 by ohnudes           #+#    #+#             */
-/*   Updated: 2023/06/22 12:49:51 by ohnudes          ###   ########.fr       */
+/*   Updated: 2023/06/22 16:55:46 by ohnudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "gnl2.h"
 #include <stdlib.h>
 #include <unistd.h>
-
-typedef struct s_buflen
-{
-	char	*content;
-	char	*line; 
-	int		len; // EVERY MALLOC CONSIDERS +1
-
-}			t_bufdata;
 
 char	*line_assambler(t_bufdata *buf, int match)
 {
