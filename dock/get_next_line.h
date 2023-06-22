@@ -1,22 +1,23 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/20 19:42:13 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/06/20 20:26:26 by nmaturan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
 # define BUFFER_SIZE 1024
-# include <unistd.h>
-# include <stdlib.h>
+
+typedef struct s_bufdata
+{
+	char	*content;
+	char	*line; 
+	int		len; // EVERY MALLOC CONSIDERS +1
+
+}			t_bufdata;
 
 char	*get_next_line(int fd);
 
-#endif
+char	*buf_checker(t_bufdata *buf);
+int		read_into_buff(t_bufdata *buf, int fd);
+char	*line_assambler(t_bufdata *buf, int match);
+
+
+
+
+#endif // !GNL_H

@@ -1,20 +1,17 @@
-
-#include <sys/fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-
 /*
 Objective:
 Recreate env to understand Open/Read/Write functionment.
+
+How to use:
+1. string
 
 Conclusions
 
 1. For this test, BUFFER_SIZE dictates the sizes of reference, independent of
 char formatting.
-	1.1. BUT! They will print in function of bytes-to-be-printed:
-	BUFFER_SIZE of 200 doesn't mean that it will actually write 200
-	chars, but all chars included under that range.
+1.1. BUT! They will print in function of bytes-to-be-printed:
+BUFFER_SIZE of 200 doesn't mean that it will actually write 200
+chars, but all chars included under that range.
 2. WRITE/READ are len dependant. That means that if a '\0'
 is included in their referenced buffer, they will print if as
 a null, and keep printing.
@@ -32,11 +29,16 @@ of this test.
 kind of hex conversion? Anyways, it does not get printed
 */
 
+#include <sys/fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 int	main(void)
 {
 	char	*tmp;
 	int		BUFFER_SIZE;
-	char	test[18] = "uno\ndos\0 tres\n";
+	char	test[200] = "uno\ndos\0 tres\n";
 	int		fd;
 	int		rbytes;
 	int		wbytes;
