@@ -3,7 +3,10 @@ Objective:
 Recreate env to understand Open/Read/Write functionment.
 
 How to use:
-1. string
+1. arraylen of test is arbitrary. It will fill up to [200] spaces. If modified
+keep it big!
+2. BUFFER_SIZE IS IMPORTANT! It will read/write up to that number which is also
+limited by the array size. KEEP IN MIND TO UPDATE WITH DIFFERENT TEST STRINGS
 
 Conclusions
 
@@ -48,11 +51,12 @@ int	main(void)
 	printf("\n");
 
 	printf("//// OPEN ////\n");
-	printf("buff_size = %d\n", BUFFER_SIZE);
+	printf("buff_size: %d\n", BUFFER_SIZE);
 	fd = open("nulltester.txt", O_RDWR);
 	if (fd == -1)
 		return (printf("error open %d\n", fd));
-	printf("Open succesfull = %d\n", fd);
+	printf("Open succesfull with value = %d\n", fd);
+	printf("Keep in mind: THIS IS THE REAL STRINGLEN\n");
 	printf("\n");
 
 	printf("//// WRITE ////\n");
@@ -60,15 +64,15 @@ int	main(void)
 	if (wbytes == -1)
 		return (-1);
 	close(fd);
-	printf("test = %s\n", test);
-	printf("Write succesfull = %d\n", wbytes);
+	printf("Printing the test string as a true C string = %s\n", test);
+	printf("Write printed %d amount of bytes\n", wbytes);
 	printf("\n");
 
 	printf("//// MALLOC FOR TMP ////\n");
 	tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!tmp)
 		return (-1);
-	printf("tmp succesfull\n");
+	printf("check: tmp succesfully allocated\n");
 	printf("\n");
 
 	printf("//// READ ////\n");
@@ -76,6 +80,7 @@ int	main(void)
 	fd = open("nulltester.txt", O_RDWR);
 	if (fd == -1)
 		return (printf("error open %d\n", fd));
+	printf("check: open recalled to reset read offline\n");
 	printf("\n");
 	// read
 	rbytes = read(fd, tmp, BUFFER_SIZE);
@@ -85,9 +90,11 @@ int	main(void)
 		return (-1);
 	}
 	tmp[rbytes] = '\0';
-	printf("Read succesfull = %d\n", rbytes);
-	printf("tmp contains =\n");
-	write(1, tmp, BUFFER_SIZE);
+	printf("READ bytes: %d\n", rbytes);
+	printf("TMP contains the following string\n");
+	int strprint = write(1, tmp, BUFFER_SIZE);
+	printf("\n");
+	printf(" writen len of tmp = %d\n", strprint);
 	printf("\n");
 	int	i = 0;
 	while (i < BUFFER_SIZE)
@@ -97,6 +104,7 @@ int	main(void)
 	}
 	close (fd);
 	free (tmp);
+	printf("Succesfull tmp free and closed fd\n");
 	printf("\n");
 	printf("//// EOF ////\n");
 

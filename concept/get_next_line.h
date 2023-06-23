@@ -5,23 +5,26 @@
 #ifndef GET_NEXT_LINE_H
 # define  GET_NEXT_LINE_H
 
+typedef struct s_buf
+{
+	char		**storage;
+	char		*content;
+	char		*match;
+	char		detected_flag;
+	char		error;
+	int			len;
+	int			fd;
+}				t_buf;
+
 # include <unistd.h>
 # include <stdlib.h>
 
-
-typedef struct s_buf
-{
-	char			*content;
-	struct s_buf	*next;
-}					t_buf;
-
-
 char	*get_next_line(int fd);
-char	*get_next_line_utils(int fd);
+char	*line_assambler(t_buf *buffer);
+t_buf	buff_filler(t_buf buffer);	
 
-size_t	ft_strlen(char *buffer);
-void	ft_lstaddback(t_buf HEAD, t_buf tmp);
-char	*ft_strchr(const char *str, int c);
-char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_strchr_t(t_buf *buffer);
+char	*ft_substr_t(t_buf *buffer);
+char	*ft_resize_t(t_buf *buffer);
 
 #endif
