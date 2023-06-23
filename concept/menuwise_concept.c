@@ -10,7 +10,7 @@ char	*line_assambler(t_buf *buffer)
 {
 	char	*line;
 	
-	buffer->match = ft_strchr_t(buffer);
+	*buffer->match = ft_strchr_t(buffer);
 	if (buffer->match == 0)
 		return (NULL);
 	line = ft_substr_t(buffer->content, buffer->match, buffer->error);
