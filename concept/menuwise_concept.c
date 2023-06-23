@@ -13,14 +13,11 @@ char	*line_assambler(t_buf *buffer)
 	buffer->match = ft_strchr_t(buffer);
 	if (buffer->match == 0)
 		return (NULL);
-	line = ft_substr_t(buffer);
+	line = ft_substr_t(buffer->content, buffer->match, buffer->error);
 	if (!buffer->error)
-		buf->content = ft_resize_t(&buffer);
+		buffer->content = ft_resize_t(buffer->content, buffer->match);
 	if (buffer->error)
-	{
-		line = NULL;
 		return (NULL);
-	}
 	return (line);
 }
 
