@@ -10,10 +10,10 @@ char	*line_assambler(t_buf *buffer)
 {
 	char	*line;
 	
-	buffer->match = ft_strchr_t(&buffer);
-	if (buffer->match == NULL)
+	buffer->match = ft_strchr_t(buffer);
+	if (buffer->match == 0)
 		return (NULL);
-	line = ft_substr_t(&buffer);
+	line = ft_substr_t(buffer);
 	if (!buffer->error)
 		buf->content = ft_resize_t(&buffer);
 	if (buffer->error)
@@ -33,7 +33,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (!buffer.content)
 		buffer = (t_buf){};
-	buffer.detected_flag = 0;
 	while (!line && !buffer.error)
 	{
 		if (buffer.content && !buffer.error)
