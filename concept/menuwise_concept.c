@@ -8,24 +8,27 @@ static char	*buff_filler(t_buf *buffer, int fd)
 	int		rbytes;
 
 	match = 0;
-	tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (tmp != NULL)
+	while (match != -1 && rbytes != -1)
 	{
-		tmp[BUFFER_SIZE] = '\0';
-		rbytes = read(fd, tmp, BUFFER_SIZE);
-		if (rbytes != -1)
+		tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		if (tmp)
 		{
-			match = ft_strchr(tmp, '\n');
-			tmp = ft_strjoin(buffer->content, tmp);
+			tmp[BUFFER_SIZE] = '\0';
+			rbytes = read(fd, tmp, BUFFER_SIZE);
+			if (rbytes != -1)
+				match = ft_strchr(tmp, '\n');
+			if (rbytes != -1)
+				tmp = ft_strjoin(buffer->content, tmp);
+			if (match && tmp != NULL)
+				return (tmp);
 		}
-		if (rbytes != -1 && tmp != NULL)
-			return (tmp);
+		if (!tmp)
+			break;
 	}
 	free (tmp);
 	free (buffer->content);
 	buffer->error = -1;
 	return (NULL);
-
 }
 
 static char	*line_assambler(t_buf *buffer)
