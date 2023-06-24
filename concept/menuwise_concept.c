@@ -18,8 +18,8 @@ static char	*buff_filler(t_buf *buffer, int fd)
 			if (rbytes != -1)
 				match = ft_strchr(tmp, '\n');
 			if (rbytes != -1)
-				tmp = ft_strjoin(buffer->content, tmp);
-			if (match && tmp != NULL)
+				buffer->content = ft_strjoin(buffer->content, tmp);
+			if ((match != -1 || rbytes == 0) && tmp != NULL)
 				return (tmp);
 		}
 		if (!tmp)

@@ -10,7 +10,7 @@ size_t	ft_strchr(char *content, char set)
 		i++;
 	if (content[i] == set)
 		return (i);
-	return (0);
+	return (-1);
 }
 
 // finished
@@ -59,7 +59,5 @@ char	*ft_strjoin(char *s1, char *s2)
 		j++;
 	}
 	result[i + j] = '\0';
-	free (s1);
-	free (s2);
 	return (result);
 }
