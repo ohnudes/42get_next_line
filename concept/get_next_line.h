@@ -10,10 +10,8 @@
 
 typedef struct s_buf
 {
-	char		**storage;
 	char		*content;
-	char		*error;
-	size_t		*match;
+	char		error;
 	size_t		len;
 	int			fd;
 }				t_buf;

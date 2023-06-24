@@ -1,40 +1,64 @@
 #include "get_next_line.h"
 
-size_t	ft_strchr_t(t_buf *buffer)
+// finished
+size_t	ft_strchr(char *content, char set)
 {
-	char	*str;
-	size_t		i;
+	size_t	i;
 
-	str = buffer->content;
-	while (str[i] && i < buffer->len && str[i] != '\n')
+	i = 0;
+	while (content[i] && content[i] != set)
 		i++;
-	if (str[i] == '\n' || str[i] == '\0')
+	if (content[i] == set)
 		return (i);
 	return (0);
 }
 
-char	*ft_substr_t(char *content, size_t *match, char *error)
+// finished
+char	*ft_substr(char *error, char *content, size_t match)
 {
 	char	*str;
 	size_t	i;
 
-	str = malloc(sizeof(char) * (*match + 1));
+	str = malloc(sizeof(char) * (match + 1));
 	if (!str)
 	{
 		*error = -1;
 		return (NULL);
 	}
-	while (i < *match)
-		str[i] = *(content + i);
-	str[*match] = '\0';
+	i = 0;
+	while (i < match)
+		str[i] = content[0]);
+	str[match] = '\0';
 	return (str);
 }
 
-char	*ft_resize_t(char *content, size_t *match)
+// indev
+char	*ft_downsize_t(t_buf buffer)
 {
-	char	*newbuf;
-	size_t	i;
+	char	*restr;
+	size_t	maxlen;
 
-	newbuf = content + *match;
-	ft_substr(
+	maxlen = buffer->len - match;
+	buffer->len = ft_strlen(buffer->content[match]);
+	restr = malloc(sizeof(char) * (maxlen + 1));
+	if (!restr)
+		buffer->error = -1;
+	if (!buffer->error)
+	{
+		restr = ft_substr(error, newbuf, buffer->len);
+		if (!restr)
+		{
+		
+			return (NULL);
+		free (buffer->content);
+	}
+	if (buffer->error)
+		return (NULL);
+	return (restr);
+}
+
+char	*ft_strjoin_t()
+{
+
+
 }

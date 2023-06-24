@@ -60,7 +60,7 @@ int	main(void)
 	printf("\n");
 
 	printf("//// WRITE ////\n");
-	wbytes = write(fd, test, 16);
+	wbytes = write(fd, test, BUFFER_SIZE);
 	if (wbytes == -1)
 		return (-1);
 	close(fd);
