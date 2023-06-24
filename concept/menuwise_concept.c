@@ -11,17 +11,19 @@ static char	*buff_filler(t_buf *buffer, int fd)
 	while (rbytes > 0)
 	{
 		tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		tmp[BUFFER_SIZE] = '\0';
 		if (!tmp)
 			break;
+		tmp[BUFFER_SIZE] = '\0';
 		rbytes = read(fd, tmp, BUFFER_SIZE);
-		if (!ft_strchr(tmp, '\n') && rbytes != -1)
+		if (rbytes != -1 && !ft_strchr(tmp, '\n'))
 			tmp = ft_strjoin(&buffer, tmp);
-		if (tmp && rbytes != -1 && !error)
+		if (tmp && rbytes == 0 && !error)
+		{
+			buffer->len = ft_strchr(buffer->content, '\0');
 			return (tmp);
+		}
 	}
-	error = 0;
-	buffer->error = error;
+	buffer->error = -1;
 	return (NULL)
 }
 
@@ -29,22 +31,25 @@ static char	*line_assambler(t_buf *buffer)
 {
 	char	*content;
 	char	*line;
-	char	error;
 	size_t	match;
 	
-	error = 0;
-	buffer->error = error;
-	*content = buffer->content;
-	
-	match = ft_strchr(content, '\n'); // returns either \n or \0
+	content = buffer->content;
+	match = ft_strchr(content, '\n');
 	if (match)
-		line = ft_substr_t(&error, content, match);
-	if (!error && line)
+		line = ft_substr_t(content, match);
+	if (line)
 	{
-		content = ft_downsize_t(buffer, match);
-		return (line);
+		match = ft_strchr(content[match], '\0');
+		content = ft_substr_t(content[match], match);
+		if (content)
+		{
+			free (buffer->content); 
+			buffer->content = content;
+			if (!error)
+				return (line);
+		}
 	}
-	error = -1;
+	buffer->error = -1;
 	return (NULL);
 }
 
