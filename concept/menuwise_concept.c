@@ -4,27 +4,28 @@
 static char	*buff_filler(t_buf *buffer, int fd)
 {
 	char	*tmp;
-	char	error;
+	size_t	match;
 	int		rbytes;
 
-	rbytes = 1;
-	while (rbytes > 0)
+	match = 0;
+	tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (tmp != NULL)
 	{
-		tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (!tmp)
-			break;
 		tmp[BUFFER_SIZE] = '\0';
 		rbytes = read(fd, tmp, BUFFER_SIZE);
-		if (rbytes != -1 && !ft_strchr(tmp, '\n'))
-			tmp = ft_strjoin(&buffer, tmp);
-		if (tmp && rbytes == 0 && !error)
+		if (rbytes != -1)
 		{
-			buffer->len = ft_strchr(buffer->content, '\0');
-			return (tmp);
+			match = ft_strchr(tmp, '\n');
+			tmp = ft_strjoin(buffer->content, tmp);
 		}
+		if (rbytes != -1 && tmp != NULL)
+			return (tmp);
 	}
+	free (tmp);
+	free (buffer->content);
 	buffer->error = -1;
 	return (NULL);
+
 }
 
 static char	*line_assambler(t_buf *buffer)
@@ -37,19 +38,19 @@ static char	*line_assambler(t_buf *buffer)
 	match = ft_strchr(content, '\n');
 	if (match)
 		line = ft_substr_t(content, match);
-	if (line)
+	if (line != NULL)
 	{
 		match = ft_strchr(content[match], '\0');
 		content = ft_substr_t(content[match], match);
-		if (content)
+		if (content != NULL)
 		{
 			free (buffer->content); 
 			buffer->content = &content;
-			if (!error)
-				return (line);
+			return (line);
 		}
 	}
-	buffer->error = -1;
+	free (content);
+	free (buffer->content);
 	return (NULL);
 }
 
@@ -74,9 +75,6 @@ char	*get_next_line(int fd)
 			buffer.content = buff_filler(&buffer, fd);
 	}
 	if (buffer.error)
-	{
-		free_sbuf(&buffer);
 		return (NULL);
-	}
 	return (line);
 }
