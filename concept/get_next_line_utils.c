@@ -34,7 +34,8 @@ char	*ft_substr(char *content, size_t match)
 	return (NULL);
 }
 
-char	*ft_strjoin_t(t_buf buffer, char *suffix)
+// finished
+char	*ft_strjoin_t(char *content, char *suffix)
 {
 	char	*newcont;
 	char	*appex;
@@ -42,8 +43,8 @@ char	*ft_strjoin_t(t_buf buffer, char *suffix)
 	size_t	sulen;
 
 	appex = buffer->content;
-	aplen = ft_strchr(appex, '\0');
-	sulen = ft_strchr(suffix, '\0');
+	aplen = ft_strchr(appex, '\0') - 1;
+	sulen = ft_strchr(suffix, '\0') - 1;
 	newcont = malloc(sizeof(char) * (aplen + sulen + 1));
 	if (!newcont)
 		return (NULL);
@@ -51,14 +52,38 @@ char	*ft_strjoin_t(t_buf buffer, char *suffix)
 		newcont++ = appex++;
 	while (suffix)
 		newcont++ = suffix++;
-	newcont[aplen + sulen + 1] = '\0';
+	newcont[aplen + sulen] = '\0';
 	return (newcont);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*res;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	res = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!res)
+		return (NULL);
+	while (i < ft_strlen(s1))
+	{
+		res[i] = s1[i];
+		i++;
 	}
+	while (j < ft_strlen(s2))
+	{
+		res[i + j] = s2[j];
+		j++;
+	}
+	res[i + j] = '\0';
+	return (res);
 }
 
 int	error_protocol()
 {
-
+	
 
 	return (0);
 }

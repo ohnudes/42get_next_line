@@ -24,7 +24,7 @@ static char	*buff_filler(t_buf *buffer, int fd)
 		}
 	}
 	buffer->error = -1;
-	return (NULL)
+	return (NULL);
 }
 
 static char	*line_assambler(t_buf *buffer)
@@ -44,7 +44,7 @@ static char	*line_assambler(t_buf *buffer)
 		if (content)
 		{
 			free (buffer->content); 
-			buffer->content = content;
+			buffer->content = &content;
 			if (!error)
 				return (line);
 		}
@@ -52,6 +52,10 @@ static char	*line_assambler(t_buf *buffer)
 	buffer->error = -1;
 	return (NULL);
 }
+
+// possible errors
+// 1. malloc at strjoin or substr -> return cascade NULL
+// 2. invalid read
 
 char	*get_next_line(int fd)
 {
