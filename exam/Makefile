@@ -6,7 +6,7 @@
 #    By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/25 21:29:07 by nmaturan          #+#    #+#              #
-#    Updated: 2023/06/25 21:30:07 by nmaturan         ###   ########.fr        #
+#    Updated: 2023/06/25 22:11:43 by nmaturan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ $(NAME): $(OBJ)
 	$(LNK) $@ $^ 
 
 %.o: %.c $(INC)
-	gcc -c $(FLAGS) $< -o $@  
+	gcc -g -c $(FLAGS) $< -o $@  
 
 fclean: clean
 	@rm -f $(NAME) 
