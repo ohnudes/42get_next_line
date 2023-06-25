@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/25 17:08:52 by nmaturan          #+#    #+#             */
+/*   Updated: 2023/06/25 17:12:14 by nmaturan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-// finished
-size_t	ft_strchr(char *content, char set)
+int	ft_strchr(char *content, char set)
 {
 	size_t	i;
 
@@ -13,28 +24,24 @@ size_t	ft_strchr(char *content, char set)
 	return (-1);
 }
 
-// finished
 char	*ft_substr(char *content, size_t match)
 {
 	char	*str;
 	size_t	i;
 
 	str = malloc(sizeof(char) * (match + 1));
-	if (str)
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < match)
 	{
-		i = 0;
-		while (i < match)
-		{
-			str[i] = content[i]);
-			i++;
-		}
-		str[match] = '\0';
-		return (str);
+		str[i] = content[i];
+		i++;
 	}
-	return (NULL);
+	str[match] = '\0';
+	return (str);
 }
 
-// finished
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*result;
