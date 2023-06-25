@@ -5,48 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/25 17:21:40 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/06/25 18:29:43 by nmaturan         ###   ########.fr       */
+/*   Created: 2023/06/25 20:29:57 by nmaturan          #+#    #+#             */
+/*   Updated: 2023/06/25 21:40:57 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-typedef struct s_buf
-{
-	char	*content;
-	char	*match;
-	char	error;
-	int		rbytes;
-}			t_buf;
-
-static char	*fill_buffer(t_buf *buffer)
+static char	*fill_buffer(t_buf *buffer, int fd)
 {
 	char	*tmp;
+	int		rbytes;
 
-	tmp = NULL;
-	if (!tmp)
-		return ();
-	
-
+	rbytes = 1;
+	while (rbytes != 0)
+	{
+		tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		rbytes = read(fd, tmp, BUFFER_SIZE);
+		tmp[BUFFER_SIZE] = '\0';
+		if (ft_strchr(tmp, '\n'))
+		{
+			buffer->content = ft_strjoin_t(&buffer->content, &tmp); 
+			break ;	
+		}
+		buffer->content = ft_strjoin_t(&buffer->content, &tmp); 
+	}
+	if (tmp != NULL)
+		free (tmp);
+	return (buffer->content);
 }
-
-
 
 static char	*deliver_line(t_buf *buffer)
 {
 	char	*line;
 	int		match;
-
+	size_t	len;
+	
 	line = NULL;
-	if (buffer->match)
-		line = ft_substr(buffer->content, match);
-	else
-	while (buffer->content[i] != '\n')
+	len = 0;
+	len = ft_strlen(buffer->content);
 	match = ft_strchr(buffer->content, '\n');
-	if (match)
-		
-	line = malloc(sizeof(char) * (match + 1));
+	if (match < 0)
+	{
+		line = ft_substr(buffer->content, 0, ft_strlen(buffer->content));
+		return (buffer->content);
+	}
+	line = ft_substr(buffer->content, 0, len);
 	return (line);
 }
 
@@ -55,23 +59,9 @@ char	*get_next_line(int fd)
 	static t_buf	buffer;
 	char			*line;
 
-	buffer = (t_buf){};
 	line = NULL;
-	if (fd < 2 || BUFFER_SIZE < 1)
-		return (NULL);
-	match = ft_strchr 
-	if (buffer.content != NULL);
-		line = deliver_line(&buffer);
-	if (line == NULL)
-	{
-		match = fill_buffer(&buffer);
-		if (!buffer.error)
-			line = deliver_line(&buffer);
-	}
-	if (buffer.error)
-	{
-		buffer = clean_buffer(&buffer);
-		return (NULL);
-	}
+	buffer = (t_buf){};
+	buffer.content = fill_buffer(&buffer, fd);
+	line = deliver_line(&buffer);
 	return (line);
 }
