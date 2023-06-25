@@ -1,118 +1,83 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ohnudes <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 21:00:34 by ohnudes           #+#    #+#             */
-/*   Updated: 2023/06/22 20:27:48 by ohnudes          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdlib.h>
-#include <unistd.h>
 
-char	*line_assambler(t_bufdata *buf, int match)
-{
-	char	*line;
-	char	*eol;
-
-	eol = buf->content;
-	line = NULL;
-	if (!eol[match])
-		line = malloc(sizeof(char) * (buf->len + 1));
-	else
-		line = malloc(sizeof(char) * (match + 1));
-	if (!line)
-		return (NULL);
-	line = ft_substr(buf->content, match); // handles '\0' termination
-	if (eol[match])
-		buf->content = ft_substr((buf->content + match), buf->len);
-	return (line);
-}
-
-int	read_into_buff(t_bufdata *buf, int fd)
+static char	*buff_filler(t_buf *buffer, int fd)
 {
 	char	*tmp;
-	int		match;
+	size_t	match;
 	int		rbytes;
 
 	match = 0;
-	while (!match)
+	while (match != -1 && rbytes != -1)
 	{
-		tmp = NULL;
 		tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (!tmp)
-			return NULL;
-		rbytes = read(fd, tmp, BUFFER_SIZE);
-		if (rbytes == -1)
-			return NULL;
-		tmp[BUFFER_SIZE] = '\0';
-		&buf = ft_strjoin(buf, tmp, rbytes); // checker comes after the strjoin.
-		match = ft_strchr(&buf); // checks buf + rbytes for reference.
-		free (tmp);
-	}
-	return (match);
-}
-
-char	*buf_checker(t_bufdata *buf)
-{
-	char	*str;
-	char	*newbuf;
-	int		i;
-	int		j;
-
-	if (!buf->content)
-		return (NULL);
-	str = buf->content;
-	i = 0;
-	while (i < buf->len && str[i] != '\n')
-		i++;
-	if (i < buf->len) // SUBSTR
-	{
-		str = NULL;
-		str = malloc(sizeof(char) * (i + 1));
-		if (!str)
-			return (NULL);
-		j = i;
-		str[i--] = '\0';
-		while (i >= 0)
+		if (tmp)
 		{
-			str[i] = *(buf->content + i);
-			i--;
+			tmp[BUFFER_SIZE] = '\0';
+			rbytes = read(fd, tmp, BUFFER_SIZE);
+			if (rbytes != -1)
+				match = ft_strchr(tmp, '\n');
+			if (rbytes != -1)
+				buffer->content = ft_strjoin(buffer->content, tmp);
+			if ((match != -1 || rbytes == 0) && tmp != NULL)
+				return (tmp);
 		}
-		newbuf = malloc(sizeof(char) * (buf->len - j + 1));
-		while (j < buf->len)
-			newbuf[i++] = *(buf->content + j++);
-		newbuf[i] = '\0';
+		if (!tmp)
+			break;
 	}
-	return (str);
+	free (tmp);
+	free (buffer->content);
+	buffer->error = -1;
+	return (NULL);
 }
+
+static char	*line_assambler(t_buf *buffer)
+{
+	char	*content;
+	char	*line;
+	size_t	match;
+	
+	content = buffer->content;
+	match = ft_strchr(content, '\n');
+	if (match)
+		line = ft_substr_t(content, match);
+	if (line != NULL)
+	{
+		match = ft_strchr(content[match], '\0');
+		content = ft_substr_t(content[match], match);
+		if (content != NULL)
+		{
+			free (buffer->content); 
+			buffer->content = &content;
+			return (line);
+		}
+	}
+	free (content);
+	free (buffer->content);
+	return (NULL);
+}
+
+// possible errors
+// 1. malloc at strjoin or substr -> return cascade NULL
+// 2. invalid read
 
 char	*get_next_line(int fd)
 {
-	static t_bufdata	buf; // static buffer
-	char				*line; // returned line which ends at '\n'
-	int					*match; // first '\n' ocurrence
+	static t_buf	buffer;
+	char			*line;
 
 	if (fd < 0)
 		return (NULL);
-	line = NULL;
-	match = NULL;
-	line = buf_checker(&buf);
-	if (!line)
+	if (!buffer.content)
+		buffer = (t_buf){};
+	while (!line && !buffer.error)
 	{
-		while (!match)
-			match = read_into_buff(&buf, fd);
-		line = line_assambler(&buf, match); // line can be null
+		if (buffer.content && !buffer.error)
+			line = line_assambler(&buffer);
+		if (!buffer.error)
+			buffer.content = buff_filler(&buffer, fd);
 	}
+	if (buffer.error)
+		return (NULL);
 	return (line);
-}
-
-int	main(void)
-{
-
-	return (0);
 }

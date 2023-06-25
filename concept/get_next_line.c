@@ -1,106 +1,118 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ohnudes <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/21 21:00:34 by ohnudes           #+#    #+#             */
+/*   Updated: 2023/06/22 20:27:48 by ohnudes          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdlib.h>
+#include <unistd.h>
 
-t_buf	*free_all(t_buf	**t_HEAD, char *str)
+char	*line_assambler(t_bufdata *buf, int match)
 {
-	t_buf	*ref;
-	char	*buf;
-	size_t	i;
+	char	*line;
+	char	*eol;
 
-	ref = *t_HEAD;
-	while (ref)
-	{
-		buf = ref->content;
-		if (buf)
-		{
-			while (buf)
-				i++;
-			while (buf[i--] != '\0')
-				buf[i] = '\0';
-		}
-		free (ref->content);
-		*t_HEAD = ref->next;
-		ref->next = NULL;
-		ref = *t_HEAD;
-		if (!ref)
-			free (ref);
-	}
-	return ((void *)NULL);
-}
-
-char	*node_ensambler(t_buf **t_HEAD, char *str)
-{
-	t_buf	*t_new_node;
-	t_buf	*t_last;
-
-	t_new_node = ft_lstnew(str); // HACER STRDUP DENTRO DE LSTNEW!
-	if (!t_new_node)
-		return ((char *)free_all(t_HEAD, str));
-	if (t_HEAD == NULL)
-		*t_HEAD = t_new_node;
+	eol = buf->content;
+	line = NULL;
+	if (!eol[match])
+		line = malloc(sizeof(char) * (buf->len + 1));
 	else
-	{
-		t_last = *t_HEAD;
-		while (t_last->next)
-			t_last = t_last->next;
-		t_last->next = t_new_node;
-	}
-	return (str);
+		line = malloc(sizeof(char) * (match + 1));
+	if (!line)
+		return (NULL);
+	line = ft_substr(buf->content, match); // handles '\0' termination
+	if (eol[match])
+		buf->content = ft_substr((buf->content + match), buf->len);
+	return (line);
 }
 
-t_buf	*fill_buff(int fd, t_buf **t_HEAD) 
+int	read_into_buff(t_bufdata *buf, int fd)
 {
-	ssize_t	bytes_read;
 	char	*tmp;
+	int		match;
+	int		rbytes;
 
-	tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!tmp)
-		return (free_all(t_HEAD, tmp));
-	tmp[BUFFER_SIZE] = '\0';
-	bytes_read = 1;
-	while (bytes_read)
+	match = 0;
+	while (!match)
 	{
-		bytes_read = read(fd, tmp, BUFFER_SIZE);
-		if (bytes_read < 0)
-			return (free_all(t_HEAD, tmp));
-		if (ft_strchr(tmp, '\n'))
-		{
-			tmp = node_ensambler(t_HEAD, tmp);
-			free (tmp);
-			return (*t_HEAD);
-		}
-		tmp = node_ensambler(t_HEAD, tmp);
+		tmp = NULL;
+		tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		if (!tmp)
+			return NULL;
+		rbytes = read(fd, tmp, BUFFER_SIZE);
+		if (rbytes == -1)
+			return NULL;
+		tmp[BUFFER_SIZE] = '\0';
+		&buf = ft_strjoin(buf, tmp, rbytes); // checker comes after the strjoin.
+		match = ft_strchr(&buf); // checks buf + rbytes for reference.
+		free (tmp);
 	}
-	free (tmp);
-	return (*t_HEAD);
+	return (match);
 }
 
-char	*do_str(t_buf *t_HEAD)
+char	*buf_checker(t_bufdata *buf)
 {
-	t_buf	*t_iter;
 	char	*str;
+	char	*newbuf;
+	int		i;
+	int		j;
 
-	t_iter = t_HEAD;
-	while (t_iter && t_iter->next)
+	if (!buf->content)
+		return (NULL);
+	str = buf->content;
+	i = 0;
+	while (i < buf->len && str[i] != '\n')
+		i++;
+	if (i < buf->len) // SUBSTR
 	{
-		ft_strjoin(t_iter->content, const char *s2);
-	}	
+		str = NULL;
+		str = malloc(sizeof(char) * (i + 1));
+		if (!str)
+			return (NULL);
+		j = i;
+		str[i--] = '\0';
+		while (i >= 0)
+		{
+			str[i] = *(buf->content + i);
+			i--;
+		}
+		newbuf = malloc(sizeof(char) * (buf->len - j + 1));
+		while (j < buf->len)
+			newbuf[i++] = *(buf->content + j++);
+		newbuf[i] = '\0';
+	}
 	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	static	t_buf	*t_HEAD;
-	char			*str;
+	static t_bufdata	buf; // static buffer
+	char				*line; // returned line which ends at '\n'
+	int					*match; // first '\n' ocurrence
 
 	if (fd < 0)
 		return (NULL);
-	t_HEAD = NULL;
-	if (!t_HEAD)
-		t_HEAD = fill_buff(fd, &t_HEAD);
-	if (!t_HEAD)
-		return (NULL);
-	str = do_str(t_HEAD);
-	return (str);
+	line = NULL;
+	match = NULL;
+	line = buf_checker(&buf);
+	if (!line)
+	{
+		while (!match)
+			match = read_into_buff(&buf, fd);
+		line = line_assambler(&buf, match); // line can be null
+	}
+	return (line);
+}
+
+int	main(void)
+{
+
+	return (0);
 }

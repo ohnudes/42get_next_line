@@ -1,27 +1,23 @@
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1024
-#endif
-
 #ifndef GET_NEXT_LINE_H
-# define  GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-# include <unistd.h>
-# include <stdlib.h>
+# define BUFFER_SIZE 1024
 
-typedef struct s_buf
+typedef struct s_bufdata
 {
-	char		*content;
-	char		error;
-	size_t		len;
-	int			fd;
-}				t_buf;
+	char	*content;
+	char	*line; 
+	int		len; // EVERY MALLOC CONSIDERS +1
+
+}			t_bufdata;
 
 char	*get_next_line(int fd);
-char	*line_assambler(t_buf *buffer);
-t_buf	buff_filler(t_buf buffer);	
 
-size_t	ft_strchr_t(t_buf *buffer);
-char	*ft_substr_t(char *buffer, size_t *match, char *error);
-char	*ft_resize_t(char *content, size_t *match);
+char	*buf_checker(t_bufdata *buf);
+int		read_into_buff(t_bufdata *buf, int fd);
+char	*line_assambler(t_bufdata *buf, int match);
 
-#endif
+
+
+
+#endif // !GNL_H
