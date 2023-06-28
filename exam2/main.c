@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:30:11 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/06/26 18:38:52 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/06/28 10:30:10 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	main(void)
 		if (str != NULL)
 			free (str);
 		if (!str)
-			close (fd);
+			fd = close (fd);
 	}
+	str = NULL;
 	return (0);
 }

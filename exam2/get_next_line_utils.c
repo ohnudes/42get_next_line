@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 15:36:42 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/06/26 18:40:17 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/06/28 23:34:21 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,15 @@ char	*ft_substr(char **str, unsigned int start, size_t len)
 		*result = '\0';
 		return (result);
 	}
+	if (len > ft_strlen(*str) - start)
+		len = ft_strlen(*str) - start;
 	result = malloc(sizeof(char) * (len + 1));
 	if (!result)
 		return (ft_free(&result));
 	i = 0;
 	while (i < len && *str[start + i])
 	{
-		result[i] = *str[start + i];
+		result[i] = *(*str + start + i);
 		i++;
 	}
 	result[i] = '\0';
