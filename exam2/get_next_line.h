@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:06:11 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/06/26 17:10:32 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/06/29 13:24:55 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 # endif
 
 char	*get_next_line(int fd);
-char	*ft_free(char **buffer);
+char	ft_free(char *buffer);
 char	*ft_strjoin_t(char *s1, char *s2);
-char	*ft_substr(char **str, unsigned int start, size_t len);
+char	*ft_substr(char *str, unsigned int start, size_t len);
 int		ft_strchr(const char *str, char set);
 size_t	ft_strlen(const char *str);
 

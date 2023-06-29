@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 18:30:11 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/06/28 10:30:10 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:49:44 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	main(void)
 	{
 		str = get_next_line(fd);
 		printf("%s", str);
-		if (str != NULL)
-			free (str);
 		if (!str)
 			fd = close (fd);
+		if (str != NULL)
+			free (str);
 	}
 	str = NULL;
 	return (0);

@@ -6,19 +6,17 @@
 /*   By: nmaturan <nmaturan@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:00:57 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/06/28 19:58:04 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/06/29 13:25:45 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <unistd.h>
-#include <stdlib.h>
 
-char	*ft_free(char **buffer)
+char	*ft_free(char *buffer)
 {
-	free (*buffer);
-	*buffer = NULL;
-	return (*buffer);
+	free (buffer);
+	buffer = NULL;
+	return (buffer);
 }
 
 static char	*read_to_buffer(char **buffer, int fd)
@@ -63,15 +61,15 @@ char	*get_next_line(int fd)
 	if ((buffer && ft_strchr(buffer, '\n') < 0) || !buffer)
 		buffer = read_to_buffer(&buffer, fd);
 	if (!buffer)
-		return (ft_free(&buffer));
+		return (ft_free(buffer));
 	len = ft_strlen(buffer);
 	match = ft_strchr(buffer, '\n');
 	if (match < 0)
-		line = ft_substr(&buffer, 0, len);
+		line = ft_substr(buffer, 0, len);
 	else
-		line = ft_substr(&buffer, 0, match + 1);
+		line = ft_substr(buffer, 0, match);
 	if (!line)
-		return (ft_free(&buffer));
-	buffer = ft_substr(&buffer, ft_strlen(line), len - ft_strlen(line));
+		return (ft_free(buffer));
+	buffer = ft_substr(buffer, ft_strlen(line), len - ft_strlen(line));
 	return (line);
 }

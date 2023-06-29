@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 15:36:42 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/06/28 23:34:21 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/06/29 13:27:28 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,30 @@ char	*ft_strjoin_t(char *s1, char *s2)
 	return (result);
 }
 
-char	*ft_substr(char **str, unsigned int start, size_t len)
+char	*ft_substr(char *str, unsigned int start, size_t len)
 {
 	char	*result;
 	size_t	i;
 
 	if (!*str)
 		return (NULL);
-	if (!len || ft_strlen(*str) < (size_t)start)
+	if (!len || ft_strlen(str) < (size_t)start)
 	{
 		result = malloc(sizeof(char) * 1);
 		if (!result)
-			return (ft_free(&result));
+			return (ft_free(result));
 		*result = '\0';
 		return (result);
 	}
-	if (len > ft_strlen(*str) - start)
-		len = ft_strlen(*str) - start;
+	if (len > ft_strlen(str) - start)
+		len = ft_strlen(str) - start;
 	result = malloc(sizeof(char) * (len + 1));
 	if (!result)
-		return (ft_free(&result));
+		return (ft_free(result));
 	i = 0;
-	while (i < len && *str[start + i])
+	while (i <= len && str[start + i])
 	{
-		result[i] = *(*str + start + i);
+		result[i] = *(str + start + i);
 		i++;
 	}
 	result[i] = '\0';
