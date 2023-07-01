@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:00:57 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/06/29 13:25:45 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:26:57 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_free(char *buffer)
 	return (buffer);
 }
 
-static char	*read_to_buffer(char **buffer, int fd)
+static char	*read_to_buffer(char *buffer, int fd)
 {
 	char	*tmp;
 	int		rbytes;
@@ -29,7 +29,7 @@ static char	*read_to_buffer(char **buffer, int fd)
 	if (!tmp)
 		return (NULL);
 	tmp[BUFFER_SIZE] = '\n';
-	match = 1;
+	match = -1;
 	rbytes = 1;
 	while (match < 0 || rbytes > 0)
 	{
@@ -37,7 +37,7 @@ static char	*read_to_buffer(char **buffer, int fd)
 		if (rbytes > 1)
 		{
 			match = ft_strchr(tmp, '\n');
-			*buffer = ft_strjoin_t(*buffer, tmp);
+			buffer = ft_strjoin_t(&*buffer, tmp);
 		}
 		if (!buffer || rbytes == -1)
 		{
@@ -46,7 +46,7 @@ static char	*read_to_buffer(char **buffer, int fd)
 		}
 	}
 	free (tmp);
-	return (*buffer);
+	return (buffer);
 }
 
 char	*get_next_line(int fd)
@@ -54,22 +54,21 @@ char	*get_next_line(int fd)
 	static char		*buffer = {0};
 	char			*line;
 	int				match;
-	size_t			len;
 
+	match = 0;
+	line = NULL;
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
 	if ((buffer && ft_strchr(buffer, '\n') < 0) || !buffer)
-		buffer = read_to_buffer(&buffer, fd);
+		buffer = read_to_buffer(buffer, fd);
 	if (!buffer)
 		return (ft_free(buffer));
-	len = ft_strlen(buffer);
 	match = ft_strchr(buffer, '\n');
 	if (match < 0)
-		line = ft_substr(buffer, 0, len);
-	else
-		line = ft_substr(buffer, 0, match);
-	if (!line)
+		match = ft_strlen(buffer);
+	line = ft_substr(buffer, 0, match);
+	if (!line && buffer)
 		return (ft_free(buffer));
-	buffer = ft_substr(buffer, ft_strlen(line), len - ft_strlen(line));
+	buffer = ft_substr(buffer, ft_strlen(line), ft_strlen(buffer) - match);
 	return (line);
 }
