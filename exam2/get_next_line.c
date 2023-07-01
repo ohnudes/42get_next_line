@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:00:57 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/06/29 18:26:57 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/07/01 11:19:44 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*read_to_buffer(char *buffer, int fd)
 	while (match < 0 || rbytes > 0)
 	{
 		rbytes = read(fd, tmp, BUFFER_SIZE);
-		if (rbytes > 1)
+		if (rbytes > 0)
 		{
 			match = ft_strchr(tmp, '\n');
 			buffer = ft_strjoin_t(&*buffer, tmp);
