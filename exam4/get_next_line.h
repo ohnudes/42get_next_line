@@ -6,15 +6,15 @@
 /*   By: ohnudes <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:43:55 by ohnudes           #+#    #+#             */
-/*   Updated: 2023/07/13 16:49:16 by ohnudes          ###   ########.fr       */
+/*   Updated: 2023/07/23 01:56:43 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#include <unistd.h>
-#include <stdlib.h>
+# include <unistd.h>
+# include <stdlib.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024

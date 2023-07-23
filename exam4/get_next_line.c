@@ -6,10 +6,12 @@
 /*   By: ohnudes <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 14:07:45 by ohnudes           #+#    #+#             */
-/*   Updated: 2023/07/13 16:50:26 by ohnudes          ###   ########.fr       */
+/*   Updated: 2023/07/23 02:23:38 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <fcntl.h>
 #include "get_next_line.h"
 
 static char	*fill_storage(int fd, char *storage)
@@ -30,7 +32,7 @@ static char	*fill_storage(int fd, char *storage)
 		free (tmp);
 		tmp = NULL;
 		if (ft_strchr(storage, '\n') != -1)
-			break;
+			break ;
 	}
 	return (storage);
 }
@@ -38,7 +40,7 @@ static char	*fill_storage(int fd, char *storage)
 static char	*separate_lines(char *line, char **storage)
 {
 	int	match;
-	int storage_len;
+	int	storage_len;
 
 	storage_len = ft_strlen(*storage);
 	match = ft_strchr(*storage, '\n');
@@ -62,26 +64,21 @@ static char	*separate_lines(char *line, char **storage)
 
 char	*get_next_line(int fd)
 {
-	char	static	*storage;
-	char			*line;
-	
+	static char	*storage = {0};
+	char		*line;
+
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	line = NULL;
-	if (!storage)
-		storage = NULL;
 	if (!storage || (storage && ft_strchr(storage, '\n') == -1))
 		storage = fill_storage(fd, storage);
 	if (storage)
 		line = separate_lines(line, &storage);
-	if (*line == '\0')
+	if (!*line)
 		line = ft_free(line);
 	return (line);
 }
-/*
 
-#include <stdio.h>
-#include <fcntl.h>
 
 int	main(void)
 {
@@ -90,23 +87,18 @@ int	main(void)
 	char	*line;
 
 	line = NULL;
-	rbytes = 1;
+	rbytes = 10;
 	fd = open("test.txt", O_RDWR);
 	line = get_next_line(fd);
-	if (line)
+	while (rbytes--)
 	{
-		while (line != NULL)
-		{
-			rbytes = printf("%p  line\n", line);
-			rbytes = printf("==== CONTENT ====\n");
-			rbytes = printf("%s", line);
-			rbytes = printf("\n==== END OF CONTENT ====\n");
-			line = get_next_line(fd);
-		}
+		printf("%p  line\n", line);
+		printf("==== CONTENT ====\n");
+		printf("%s", line);
+		printf("\n==== END OF CONTENT ====\n");
+		line = get_next_line(fd);
 	}
-	else
-		printf("\nreading ended\n");
 	free (line);
 	close (fd);
 	return (0);
-}*/
+}

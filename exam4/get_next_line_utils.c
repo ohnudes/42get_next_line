@@ -6,7 +6,7 @@
 /*   By: ohnudes <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:50:48 by ohnudes           #+#    #+#             */
-/*   Updated: 2023/07/13 16:50:55 by ohnudes          ###   ########.fr       */
+/*   Updated: 2023/07/23 02:30:42 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ size_t	ft_strlen(char *str)
 {
 	size_t	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 		i++;
@@ -86,4 +88,3 @@ char	*ft_strjoin(char *s1, char *s2)
 	free (s1);
 	return (s2);
 }
-
