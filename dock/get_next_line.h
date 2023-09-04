@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:30:45 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/08/30 20:23:00 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/09/04 17:56:41 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@
 #  define BUFFER_SIZE 1024
 # endif 
 
-#include <unistd.h>
-#include <stdlib.h>
+# include <unistd.h>
+# include <stdlib.h>
 
 // main corpus
-char			*get_next_line(int fd);
-static char		*fill_content(int rbytes, int fd, char **eol);
-static char		*find_eol(char	*eol, char *content, char *tmp, int rbytes);
-static char		*produce_line(char *content, char *eol);
-static char		*clean_content(char *content, char *eol);
+char	*get_next_line(int fd);
+//static char		*fill_content(int rbytes, int fd, char **eol);
+//static char		*find_eol(char	*eol, char *content, char *tmp, int rbytes);
+//static char		*produce_line(char *content, char *eol);
+//static char		*clean_content(char *content, char *eol);
 
 // utils
+size_t	ft_strlen(const char *str);
 char	*ft_strchr(const char *str, char set);
-char	*ft_strjoin(char *first, char *second);
+char	*ft_strappend(const char *first, const char *second, int rbytes);
 char	*ft_free(char *str);
 
 #endif

@@ -6,11 +6,13 @@
 #    By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/30 18:36:37 by nmaturan          #+#    #+#              #
-#    Updated: 2023/08/30 18:38:27 by nmaturan         ###   ########.fr        #
+#    Updated: 2023/09/04 17:14:23 by nmaturan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = gnl.a 
+
+MAIN = main.c
 
 FLAGS = -Wall -Wextra -Werror
 
@@ -37,7 +39,6 @@ $(NAME): $(OBJ)
 	@echo Compiling $<
 	@gcc -c $(T_FLAGS) $< -o $@
 	@echo Compilation complete.
-
 
 fclean: clean
 	@rm -f $(NAME)
