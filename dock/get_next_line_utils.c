@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:30:58 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/09/07 13:04:05 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/09/07 17:27:46 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strappend(char *first, const char *second, int rbytes)
+char	*ft_strappend(char *first, char *second, int rbytes)
 {
 	char	*newstr;
 	size_t	i;

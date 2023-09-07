@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 13:21:15 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/09/07 17:13:37 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/09/07 17:45:02 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(void)
 	char	*line;
 
 	// test 1
-	fd = open("1char.txt", O_RDONLY);
+	fd = open("one_byte.txt", O_RDONLY);
 	// test 2
 	//fd = open("empty.txt", O_RDONLY);
 	// test 3
