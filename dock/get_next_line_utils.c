@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:30:58 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/09/04 18:00:30 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/09/07 13:04:05 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,31 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strappend(const char *first, const char *second, int rbytes)
+char	*ft_strappend(char *first, const char *second, int rbytes)
 {
 	char	*newstr;
 	size_t	i;
 	size_t	j;
-	size_t	slen;
+	size_t	flen;
 
 	i = 0;
 	j = 0;
-	slen = rbytes;
-	newstr = malloc(sizeof(char) * (ft_strlen(first) + slen) + 1);
-	if (!newstr)
-		return (NULL);
-	while (i < ft_strlen(first))
+	flen = ft_strlen(first);
+	newstr = malloc(sizeof(char) * (flen + (size_t)rbytes + 1));
+	if (!newstr || flen + (size_t)rbytes + 1 < 1)
+		return (ft_free(first));
+	while (i < flen)
 	{
 		newstr[i] = first[i];
 		i++;
 	}
-	while (j < slen)
+	while (j < (size_t)rbytes)
 	{
 		newstr[i + j] = second[j];
 		j++;
 	}
 	newstr[i + j] = '\0';
+	free (first);
 	return (newstr);
 }
 
@@ -67,7 +68,7 @@ char	*ft_strchr(const char *str, char set)
 
 char	*ft_free(char *str)
 {
-	if (*str)
+	if (str)
 		free (str);
 	return (NULL);
 }
