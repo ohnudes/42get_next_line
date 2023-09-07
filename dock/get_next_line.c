@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:25:50 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/09/07 13:29:26 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/09/07 17:24:45 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*produce_line(char *content, char *eol)
 	size = 0;
 	if (!eol)
 		eol = content + ft_strlen(content);
-	size = eol - content;
+	size = eol - content + 1;
 	line = malloc(sizeof(char) * (size + 1));
 	if (!line)
 		return (NULL);
