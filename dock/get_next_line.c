@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:25:50 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/09/07 18:02:01 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/09/17 10:24:35 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,10 @@ char	*get_next_line(int fd)
 	if (!eol)
 		content = fill_content(content, rbytes, fd, &eol);
 	if (!content || *content == '\0')
-		return (ft_free(content));
+	{
+		content = ft_free(content);
+		return (content);
+	}
 	line = produce_line(content, eol);
 	if (!line && content)
 		return (ft_free(content));
