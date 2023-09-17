@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:25:50 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/09/17 11:22:46 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/09/17 12:01:29 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 static char	*clean_content(char *content, char *eol)
 {
 	size_t	remaining_size;
-	size_t	i;
 	char	*newstr;
 	char	*start;
 
-	i = 0;
 	newstr = NULL;
 	remaining_size = 0;
 	if (eol && eol + 1)
@@ -33,10 +31,10 @@ static char	*clean_content(char *content, char *eol)
 	if (!newstr)
 		return (ft_free(content));
 	newstr[remaining_size] = '\0';
-	while (i < remaining_size)
+	while (remaining_size > 0)
 	{
-		newstr[i] = start[i];
-		i++;
+		newstr[remaining_size - 1] = start[remaining_size - 1];
+		remaining_size--;
 	}
 	free (content);
 	return (newstr);
@@ -105,21 +103,17 @@ char	*get_next_line(int fd)
 	char		*eol;
 	int			rbytes;
 
-	line = NULL;
-	eol = NULL;
 	if (fd < 0)
 		return (NULL);
+	line = NULL;
+	eol = NULL;
 	rbytes = 0;
 	eol = ft_strchr(content, '\n');
 	if (!eol)
 		content = fill_content(content, rbytes, fd, &eol);
-	if (!content || *content == '\0')
-	{
-		content = ft_free(content);
-		return (content);
-	}
-	line = produce_line(content, eol);
-	if (!line && content)
+	if (content && *content != '\0')
+		line = produce_line(content, eol);
+	if (!content || *content == '\0' || (!line && content))
 	{
 		content = ft_free(content);
 		return (content);
