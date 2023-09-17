@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:25:50 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/09/17 12:01:29 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/09/17 13:10:55 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,10 @@ static char	*fill_content(char *content, int rbytes, int fd, char **eol)
 	while (!*eol)
 	{
 		rbytes = read(fd, tmp, BUFFER_SIZE);
-		*eol = ft_strchr(tmp, '\n');
 		if (rbytes > 0)
 		{
 			content = ft_strappend(content, tmp, rbytes);
-			if (*eol)
+			if (ft_strchr(tmp, '\n'))
 				*eol = ft_strchr(content, '\n');
 		}
 		else if (rbytes == -1 || !content)
