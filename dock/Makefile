@@ -6,7 +6,7 @@
 #    By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/30 18:36:37 by nmaturan          #+#    #+#              #
-#    Updated: 2023/09/04 17:14:23 by nmaturan         ###   ########.fr        #
+#    Updated: 2023/09/17 13:35:12 by nmaturan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,17 @@ T_FLAGS = -Wall -Wextra -Werror -g
 
 LNK = ar rcs
 
-INC = get_next_line.h
+INC = get_next_line_bonus.h
 
-SRC = get_next_line.c get_next_line_utils.c
+SRC = get_next_line_bonus.c get_next_line_utils_bonus.c
 
 OBJ = $(SRC:.c=.o)
+
+OBJBONUS = $(SRC:.c=.o)
+
+INCBONUS = get_next_line_bonus.h
+
+SRCBONUS = get_next_line_bonus.c get_next_line_utils_bonus.c
 
 # MAIN = ft_printf_bonus_test.c
 
@@ -51,5 +57,7 @@ re: fclean all
 test: re
 	@make clean
 	@gcc -fsanitize=address $(T_FLAGS) $(MAIN) $(NAME) -o prog.out
+
+bonus:
 
 .PHONY: all clean fclean re
