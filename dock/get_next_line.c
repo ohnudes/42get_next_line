@@ -6,7 +6,7 @@
 /*   By: nmaturan <nmaturan@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:25:50 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/09/17 10:24:35 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/09/17 11:22:46 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static char	*produce_line(char *content, char *eol)
 	if (!eol)
 		eol = content + ft_strlen(content);
 	size = eol - content + 1;
+	if (*eol == '\0')
+		size -= 1;
 	line = malloc(sizeof(char) * (size + 1));
 	if (!line)
 		return (NULL);
@@ -80,15 +82,16 @@ static char	*fill_content(char *content, int rbytes, int fd, char **eol)
 	while (!*eol)
 	{
 		rbytes = read(fd, tmp, BUFFER_SIZE);
+		*eol = ft_strchr(tmp, '\n');
 		if (rbytes > 0)
-			content = ft_strappend(content, tmp, rbytes);
-		if (rbytes == -1 || !content)
 		{
-			content = ft_free(content);
-			return (ft_free(tmp));
+			content = ft_strappend(content, tmp, rbytes);
+			if (*eol)
+				*eol = ft_strchr(content, '\n');
 		}
-		*eol = ft_strchr(content, '\n');
-		if (rbytes == 0 || rbytes < BUFFER_SIZE)
+		else if (rbytes == -1 || !content)
+			content = ft_free(content);
+		if (rbytes <= 0 || rbytes < BUFFER_SIZE)
 			break ;
 	}
 	free(tmp);
@@ -117,7 +120,10 @@ char	*get_next_line(int fd)
 	}
 	line = produce_line(content, eol);
 	if (!line && content)
-		return (ft_free(content));
+	{
+		content = ft_free(content);
+		return (content);
+	}
 	content = clean_content(content, eol);
 	return (line);
 }
