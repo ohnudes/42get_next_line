@@ -6,11 +6,11 @@
 /*   By: nmaturan <nmaturan@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 13:32:42 by nmaturan          #+#    #+#             */
-/*   Updated: 2023/09/17 13:32:44 by nmaturan         ###   ########.fr       */
+/*   Updated: 2023/10/23 10:43:51 by nmaturan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *str)
 {
